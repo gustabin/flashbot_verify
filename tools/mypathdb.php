@@ -1,48 +1,25 @@
 <?php
+require __DIR__ . './../vendor/autoload.php';
+
+// Cargar variables de entorno
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Configuración de la base de datos
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
-    // Configuración de la base de datos
-    if (!defined('DB_HOST')) {
-        define('DB_HOST', 'localhost');
-    }
-    if (!defined('DB_USER')) {
-        define('DB_USER', 'root');
-    }
-    if (!defined('DB_PASSWORD')) {
-        define('DB_PASSWORD', '');
-    }
-    if (!defined('DB_NAME')) {
-        define('DB_NAME', 'echodb');
-    }
+    define('DB_HOST', $_ENV['DB_HOST']);
+    define('DB_USER', $_ENV['DB_USER']);
+    define('DB_PASSWORD', $_ENV['DB_PASSWORD']);
+    define('DB_NAME', $_ENV['DB_NAME']);
+} elseif ($_SERVER['SERVER_NAME'] == 'chatpana.com' || $_SERVER['SERVER_NAME'] == 'www.chatpana.com') {
+    define('DB_HOST', $_ENV['REMOTE_DB_HOST']);
+    define('DB_USER', $_ENV['REMOTE_DB_USER']);
+    define('DB_PASSWORD', $_ENV['REMOTE_DB_PASSWORD']);
+    define('DB_NAME', $_ENV['REMOTE_DB_NAME']);
 }
-
-// remoto
-if (($_SERVER['SERVER_NAME'] == 'chatpana.com') or ($_SERVER['SERVER_NAME'] == 'www.chatpana.com')) {
-    // Configuración de la base de datos
-    if (!defined('DB_HOST')) {
-        define('DB_HOST', 'localhost');
-    }
-    if (!defined('DB_USER')) {
-        define('DB_USER', 'chatpana_regente');
-    }
-    if (!defined('DB_PASSWORD')) {
-        define('DB_PASSWORD', '$h1=9#-j!iG*');
-    }
-    if (!defined('DB_NAME')) {
-        define('DB_NAME', 'chatpana_echodb');
-    }
-}
-
 
 // Configuración del servidor SMTP
-if (!defined('SMTP_USERNAME')) {
-    define('SMTP_USERNAME', 'ventas@chatpana.com');
-}
-if (!defined('SMTP_PASSWORD')) {
-    define('SMTP_PASSWORD', 'Kto#[@2h;nQP');
-}
-if (!defined('SMTP_HOST')) {
-    define('SMTP_HOST', 'mail.chatpana.com');
-}
-if (!defined('SMTP_PORT')) {
-    define('SMTP_PORT', 465);
-}
+define('SMTP_USERNAME', $_ENV['SMTP_USERNAME']);
+define('SMTP_PASSWORD', $_ENV['SMTP_PASSWORD']);
+define('SMTP_HOST', $_ENV['SMTP_HOST']);
+define('SMTP_PORT', $_ENV['SMTP_PORT']);
