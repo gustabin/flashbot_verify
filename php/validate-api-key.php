@@ -4,8 +4,10 @@ require '../tools/mypathdb.php';
 
 // Establecer el tipo de contenido de la respuesta como JSON
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); // Ajustar para tu dominio en producción
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 
 // Manejar solicitud preflight (OPTIONS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

@@ -5,7 +5,7 @@
             alert('API key is missing. Please provide a valid API key.'); // Mensaje de error si falta la clave API
             return;
         }
-
+        // console.log(apiKey);
         try {
             // Enviar la clave API al servidor para validarla
             const response = await fetch('https://chatpana.com/flashbot_verify/php/validate-api-key.php', {
@@ -15,6 +15,14 @@
                 },
                 body: JSON.stringify({ apiKey }) // Enviar la clave API en formato JSON
             });
+
+            if (!response.ok) {
+                const errorData = await response.text(); // Obtén el texto de error completo
+                console.error(`Error HTTP: ${response.status}, ${errorData}`);
+                alert(`Error: ${response.status}. ${errorData}`);
+                return;
+            }
+
 
             if (response.ok) {
                 const dbData = await response.json(); // Obtener datos de la respuesta JSON
@@ -64,6 +72,7 @@
     // Crear y configurar el contenedor del chatbot
     const chatContainer = document.createElement('div');
     chatContainer.id = 'chatbot-container';
+    chatContainer.style.backgroundColor = 'azure';
     chatContainer.style.position = 'absolute';
     chatContainer.style.bottom = '60px';
     chatContainer.style.right = '10px';
@@ -86,6 +95,7 @@
     const chatOutput = document.createElement('div');
     chatOutput.id = 'chat-output';
     chatOutput.style.height = '200px';
+    chatOutput.style.background = 'rgb(255, 255, 255)';
     chatOutput.style.overflowY = 'auto'; // Permitir desplazamiento si el contenido excede el área
     chatOutput.style.padding = '5px';
     chatContainer.appendChild(chatOutput); // Añadir área de salida al contenedor
@@ -108,7 +118,7 @@
     sendButton.style.marginTop = '10px';
     sendButton.style.marginLeft = '10px';
     sendButton.style.marginBottom = '10px';
-    sendButton.style.backgroundColor = 'dodgerblue';
+    sendButton.style.textColor = 'white';
     sendButton.disabled = true; // Deshabilitar botón hasta que haya un mensaje
     chatContainer.appendChild(sendButton); // Añadir botón al contenedor
 
@@ -130,7 +140,7 @@
     openButton.style.display = 'none'; // Inicialmente ocultar el botón
     openButton.style.position = 'absolute';
     openButton.style.bottom = '10px';
-    openButton.style.paddingLeft = '10px';
+    openButton.style.paddingLeft = '1px';
     openButton.style.right = '30px';
     openButton.style.width = '50px';
     openButton.style.height = '50px';
