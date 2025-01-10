@@ -2,20 +2,21 @@
 // Incluir el archivo de configuración de la base de datos
 require '../tools/mypathdb.php';
 
-// Establecer el tipo de contenido de la respuesta como JSON
-header("Content-Type: application/json");
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Responder al preflight request
     header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type");
-    header("Content-Length: 0");
-    header("Connection: close");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Max-Age: 3600");
     http_response_code(200); // Responder con un estado 200 para preflight
-    exit;
+    exit(0);
 }
 
+// Para las peticiones normales
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
 
 // Leer el cuerpo de la solicitud JSON
 $data = json_decode(file_get_contents("php://input"), true);
